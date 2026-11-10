@@ -52,7 +52,11 @@ public class ArticleServiceImpl implements ArticleService {
         int s = (size == null || size < 1) ? 10 : size;
         QueryWrapper<Article> qw = new QueryWrapper<>();
         if (keyword != null && !keyword.isBlank()) {
-            qw.like("title", keyword).or().like("content", keyword);
+            // 统一大小写：LIKE 在不同数据库上的大小写行为不同，lower 后比较可移植
+            String kw = keyword.toLowerCase();
+            qw.apply("LOWER(title) LIKE {0}", "%" + kw + "%")
+              .or()
+              .apply("LOWER(content) LIKE {0}", "%" + kw + "%");
         }
         qw.orderByDesc("created_at").orderByAsc("id");
         Page<Article> result = mapper.selectPage(new Page<>(p, s), qw);

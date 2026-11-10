@@ -1,0 +1,13 @@
+# Fallback profile "h2": H2 file persistence in MySQL compatibility mode.
+# Use when local MySQL Server credentials are not available.
+# Everything above the storage boundary (Controller/Service/Repository) is unchanged.
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/myblog;MODE=MySQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema-h2.sql

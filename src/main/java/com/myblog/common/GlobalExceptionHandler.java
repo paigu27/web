@@ -2,6 +2,7 @@ package com.myblog.common;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.NoSuchElementException;
@@ -14,11 +15,13 @@ import java.util.NoSuchElementException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public Result<Void> notFound(NoSuchElementException e) {
         return Result.fail(HttpStatus.NOT_FOUND.value(), "not found");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Result<Void> badRequest(IllegalArgumentException e) {
         return Result.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }

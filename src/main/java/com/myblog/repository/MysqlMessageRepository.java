@@ -47,7 +47,8 @@ public class MysqlMessageRepository implements MessageRepository {
     public PageResult<Message> search(String keyword, int page, int size) {
         QueryWrapper<Message> qw = new QueryWrapper<>();
         if (keyword != null && !keyword.isBlank()) {
-            qw.like("content", keyword);
+            // 统一大小写：LIKE 在不同数据库上的大小写行为不同，lower 后比较可移植
+            qw.apply("LOWER(content) LIKE {0}", "%" + keyword.toLowerCase() + "%");
         }
         qw.orderByDesc("created_at").orderByAsc("id");
         Page<Message> result = mapper.selectPage(new Page<>(page, size), qw);
