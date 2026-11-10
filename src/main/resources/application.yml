@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: myblog
+  datasource:
+    # Week 06 - 连接四要素：url（宫殿在哪）/ username / password（门钥匙）/ driver
+    url: jdbc:mysql://localhost:3306/myblog?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: myblog
+    password: myblog123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.myblog.mapper: debug
